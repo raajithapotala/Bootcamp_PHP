@@ -8,7 +8,8 @@ function arrayFlatten($arr){
         }
         else{
             foreach($value as $num){
-                array_push($res,$num);
+                $new = arrayFlatten($value);
+                $res = array_merge($res,$new);
             }
         }
     }
