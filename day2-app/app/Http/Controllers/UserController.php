@@ -20,7 +20,6 @@ class UserController extends Controller
 
     public function fetchAllUsers(){
         $users = DB::table('user')->get() ;
-        echo "Check fetch all";
         return $users;
     }
 
