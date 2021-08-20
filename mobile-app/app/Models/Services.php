@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class Service extends Model
+class Services extends Model
 {
 
     public function Create(Request $request): \Illuminate\Http\JsonResponse
     {
+        Log::info('Creating the profile for user: '.$request->name);
         $rules = array(
             "name"=> "required|min:2|max:25",
             "email" => "required|email",
@@ -25,23 +27,30 @@ class Service extends Model
         }
 
         else {
-            $users = DB::table('Users')->insert([
-                'name' => $request->name,
-                'email' => $request->email,
-                'contactNo' => $request->contactNo,
-            ]);
-
+            try {
+                $user = Users::create(['name' => $request->name, 'contactNo' => $request->contactNo, 'email' => $request->email]);
+            }
+            catch(\PHPUnit\Exception $e){
+                echo "\n". "Caught exception: " . $e->getMessage();
+            }
             return response()->json([
+                "User" => $user,
                 "message" => "User $request->name is created successfully!"
+
             ], 201);
         }
 
     }
 
     public function fetchByName($username){
-
+        Log::info('Displaying the profile of given user');
         if (Users::where('name', $username)->exists()) {
-            $user = Users::where('name', $username)->get()->toJson(JSON_PRETTY_PRINT);
+            try {
+                $user = Users::where('name', $username)->get()->toJson(JSON_PRETTY_PRINT);
+            }
+            catch(\PHPUnit\Exception $e){
+                echo "\n". "Caught exception: " . $e->getMessage();
+            }
             return response($user, 200);
         } else {
             return response()->json([
@@ -52,9 +61,15 @@ class Service extends Model
     }
 
     public function fetchByEmail($e_mail){
-
+        Log::info('Displaying the profile of given user');
         if (Users::where('email', $e_mail)->exists()) {
-            $user = Users::where('email', $e_mail)->get()->toJson(JSON_PRETTY_PRINT);
+            try {
+                $user = Users::where('email', $e_mail)->get()->toJson(JSON_PRETTY_PRINT);
+            }
+            catch(\PHPUnit\Exception $e){
+                echo "\n". "Caught exception: " . $e->getMessage();
+            }
+
             return response($user, 200);
         } else {
             return response()->json([
@@ -64,39 +79,52 @@ class Service extends Model
     }
 
     public function fetchByContactNo($phone_no){
-
-        if (Users::where('phoneNo', $phone_no)->exists()) {
-            $user = Users::where('phoneNo', $phone_no)->get()->toJson(JSON_PRETTY_PRINT);
+        Log::info('Displaying the profile of given user');
+        if (Users::where('contactNo', $phone_no)->exists()) {
+            try {
+                $user = Users::where('contactNo', $phone_no)->get()->toJson(JSON_PRETTY_PRINT);
+            }
+            catch(\PHPUnit\Exception $e){
+                echo "\n". "Caught exception: " . $e->getMessage();
+            }
             return response($user, 200);
         } else {
             return response()->json([
-                "message" => "Phone number doesn't exist!"
+                "message" => "Mobile number doesn't exist!"
             ], 404);
         }
     }
 
     public function fetchAll(){
+        Log::info('Displaying the profile of all the users');
         $users = Users::get()->toJson(JSON_PRETTY_PRINT);
         return response($users, 200);
     }
 
     public function deleteByContactNo($contactNo){
-        if(Users::where('phoneNo', $contactNo)->exists()){
-            DB::table('users')->where('phoneNo',$contactNo)->delete();
+        Log::info('Removing the profile for given user ');
+        if(Users::where('contactNo', $contactNo)->exists()){
+            DB::table('users')->where('contactNo',$contactNo)->delete();
             return response()->json([
                 "message" => "User successfully deleted!"
             ], 202);
         } else {
             return response()->json([
-                "message" => "Phone number doesn't exist!!"
+                "message" => "Mobile number doesn't exist!!"
             ], 404);
         }
 
     }
 
     public function deleteByName($username){
+        Log::info('Removing the profile for given user ');
         if(Users::where('name', $username)->exists()){
-            DB::table('users')->where('name',$username)->delete();
+            try {
+                DB::table('users')->where('name', $username)->delete();
+            }
+            catch(\PHPUnit\Exception $e){
+                echo "\n". "Caught exception: " . $e->getMessage();
+            }
             return response()->json([
                 "message" => "User successfully deleted!"
             ], 202);
@@ -109,8 +137,14 @@ class Service extends Model
     }
 
     public function deleteByEmail($email){
+        Log::info('Removing the profile for given user ');
         if(Users::where('email', $email)->exists()){
-            DB::table('users')->where('email',$email)->delete();
+            try {
+                DB::table('users')->where('email', $email)->delete();
+            }
+            catch(\PHPUnit\Exception $e){
+                echo "\n". "Caught exception: " . $e->getMessage();
+            }
             return response()->json([
                 "message" => "User successfully deleted!"
             ], 202);

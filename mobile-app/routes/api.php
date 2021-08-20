@@ -17,7 +17,7 @@ use App\Http\Controllers\UsersController;
 Route::post('/users',[UsersController::class, 'createUser']);
 Route::get('/users',[UsersController::class, 'fetchAllUsers']);
 Route::get('/users/name/{username}',[UsersController::class,'fetchUserByName']);
-Route::get('/users/number/{contactNumber}',[UsersController::class,'fetchUserByContactNo']);
+Route::get('/users/num/{contactNumber}',[UsersController::class,'fetchUserByContactNo']);
 Route::get('/users/email/{email}',[UsersController::class,'fetchUsersByEmail']);
 Route::delete('/users/name/{username}',[UsersController::class,'deleteUserByName']);
 Route::delete('/users/email/{email}',[UsersController::class,'deleteUserByEmail']);

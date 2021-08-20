@@ -4,9 +4,10 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCases;
+use Tests\TestCase;
 
-class CreateUserTest extends TestCases
+
+class CreateUserTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -44,18 +45,18 @@ class CreateUserTest extends TestCases
             -> assertStatus(400)
             ->assertJSON([
                 "contactNo" => [
-                    "The phone no field is required."
+                    "The contact no field is required."
                 ]
             ]);
     }
     public function test_createUser()
     {
         //$this->assertTrue(true);
-        $response = $this->json('POST','/api/users',['name'=>'raajitha', 'phoneNo'=>'5555565555', 'email' =>'raajitha@gmail.com']);
+        $response = $this->json('POST','/api/users',['name'=>'raajitha', 'contactNo'=>'5555565555', 'email' =>'raajitha@gmail.com']);
         $response
             -> assertStatus(201)
             ->assertJSON([
-                "msg" => "User raajitha is created successfully!"
+                "message" => "User raajitha is created successfully!"
             ]);
     }
 }

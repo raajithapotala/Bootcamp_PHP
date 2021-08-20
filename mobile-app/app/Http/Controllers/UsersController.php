@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Users;
-use App\Models\Service;
+use App\Models\User;
+use App\Models\Services;
+
 
 class UsersController extends Controller
 {
     protected $service;
 
-    public function __construct(Service $service)
+    public function __construct(Services $service)
     {
         $this->service = $service;
     }
