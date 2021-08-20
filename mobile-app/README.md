@@ -62,3 +62,16 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Description : Mobile inventory app is storage app which stores the database of all the users.It allows us to insert the users data, fetch the profile of the user by name , contact number or email address and also delete the profile of the user by name , contact number or email address.
+
+We have total of 8 Apis to do following functions.
+
+Able to insert users and its mobile number.
+Search by username
+Search by user email
+Search by mobile number
+List all users and its mobile number
+Delete by mobile number
+Delete by user name 
+Delete by user email
